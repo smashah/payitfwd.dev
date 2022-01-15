@@ -1,11 +1,17 @@
 <!DOCTYPE html>
+
 <head>
     <title>Strengthen OSS | Pay It Forward</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/favicon-16x16.png">
     <link rel="manifest" href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/site.webmanifest">
-    <link rel="mask-icon" href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="mask-icon"
+        href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/safari-pinned-tab.svg"
+        color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <style>
@@ -13,6 +19,7 @@
             display: flex;
             width: -webkit-fill-available;
         }
+
         body {
             background: #efefef;
         }
@@ -30,6 +37,51 @@
             margin-right: auto;
             padding: 32px;
         }
+
+        .loading {
+            display: flex;
+            margin: auto;
+            flex-direction: column;
+        }
+
+        .lds-ripple {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            margin: auto;
+        }
+
+        .lds-ripple div {
+            position: absolute;
+            border: 4px solid #0f0;
+            opacity: 1;
+            border-radius: 50%;
+            animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        .lds-ripple div:nth-child(2) {
+            animation-delay: -0.5s;
+        }
+
+        @keyframes lds-ripple {
+            0% {
+                top: 36px;
+                left: 36px;
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                top: 0px;
+                left: 0px;
+                width: 72px;
+                height: 72px;
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
@@ -37,22 +89,25 @@
     <div style="display: flex;">
         <img src="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/payitfwd_logo_3.png" style="
         height: 20vh;
-        margin: auto;"/>
+        margin: auto;" />
     </div>
-
+    <div id="rpl" class="lds-ripple">
+        <div></div>
+        <div></div>
+    </div>
     <div class="codewrap">
-    <pre><code id=hero></code></pre>
+        <pre><code id=hero></code></pre>
     </div>
     <script>
         const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/ig
-      /**
-       * Pretty Print JSON Objects.
-       * Inspired by http://jsfiddle.net/unLSJ/
-       * Based on code from https://codepen.io/decodigo/pen/amzrF
-       *
-       * @return {string}    html string of the formatted JS object
-       * @example:  var obj = {"foo":"bar"};  obj.prettyPrint();
-       */
+        /**
+         * Pretty Print JSON Objects.
+         * Inspired by http://jsfiddle.net/unLSJ/
+         * Based on code from https://codepen.io/decodigo/pen/amzrF
+         *
+         * @return {string}    html string of the formatted JS object
+         * @example:  var obj = {"foo":"bar"};  obj.prettyPrint();
+         */
         Object.prototype.prettyPrint = function () {
             var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
             var replacer = function (match, pIndent, pKey, pVal, pEnd) {
@@ -61,24 +116,24 @@
                     str = '<span class="json-string" style="color: olive">',
                     link = l => `<span class="json-string" style="color: olive"><a href="${l}">"${l}"</a>`,
                     em = l => `<span class="json-string" style="color: olive"><a href="mailto://${l}">"${l}"</a>`,
-                    tw = at => `<span class="json-string" style="color: olive"><a href="https://twitter.com/${at.replace("@","")}">"${at}"</a>`,
+                    tw = at => `<span class="json-string" style="color: olive"><a href="https://twitter.com/${at.replace("@", "")}">"${at}"</a>`,
                     r = pIndent || '';
                 if (pKey)
                     r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
-                if(pVal && (pKey || "").trim()==`"contact":`){
-                    r = r + em(pVal.replaceAll(`"`,'')) + '</span>';
+                if (pVal && (pKey || "").trim() == `"contact":`) {
+                    r = r + em(pVal.replaceAll(`"`, '')) + '</span>';
                 } else
-                if(pVal && pVal.match(urlRegex)) {
-                    const url = pVal.match(urlRegex)[0];
-                    r = r + link(url) + '</span>';
-                } else
-                if(pVal && pVal.replaceAll(`"`,'').startsWith("@")) {
-                    r = r + tw(pVal.replaceAll(`"`,'')) + '</span>';
-                } else
-                 if (pVal) {
-                    r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
-                 }
-                return  r + (pEnd || '') + '<br>';
+                    if (pVal && pVal.match(urlRegex)) {
+                        const url = pVal.match(urlRegex)[0];
+                        r = r + link(url) + '</span>';
+                    } else
+                        if (pVal && pVal.replaceAll(`"`, '').startsWith("@")) {
+                            r = r + tw(pVal.replaceAll(`"`, '')) + '</span>';
+                        } else
+                            if (pVal) {
+                                r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+                            }
+                return r + (pEnd || '') + '<br>';
             };
             return JSON.stringify(this, null, 3)
                 .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
@@ -95,10 +150,24 @@
             "who": "@smashah",
             "contact": "shah@idk.uno",
             "ps": "If anyone from the github funding links team is reading this, please allow custom funding links to have the referral header",
-            "logo_font":"https://github.com/javierbyte/brutalita"
+            "logo_font": "https://github.com/javierbyte/brutalita"
         }
-        const r = d.prettyPrint()
-        document.getElementById('hero').innerHTML = r
+        const p = window.location.pathname.replace(/^\/+/, '')
+        console.log("🚀 ~ file: index.html ~ line 143 ~ p", p)
+        const hero = document.getElementById('hero')
+        if (p && p.split('/').length == 2) {
+            hero.classList.add("loading");
+            hero.innerHTML = `<span style="margin: auto;">Loading random dependency for ${p.split("/").slice(-2).join("/")} ...</span>`
+            // window.location.href = `http://go.payitfwd.dev/${p}`;
+        } else if (p === "404") {
+            document.getElementById('rpl').style.display = "none";
+            hero.classList.add("loading");
+            hero.innerHTML = `<span style="margin: auto;">Github project not found ...</span><br><a href="/" style="margin: auto;">Go home</a>`
+        } else {
+            document.getElementById('rpl').style.display = "none";
+            const r = d.prettyPrint()
+            hero.innerHTML = r
+        }
     </script>
 </body>
 
