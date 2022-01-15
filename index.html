@@ -158,7 +158,7 @@
         if (p && p.split('/').length == 2) {
             hero.classList.add("loading");
             hero.innerHTML = `<span style="margin: auto;">Loading random dependency for ${p.split("/").slice(-2).join("/")} ...</span>`
-            // window.location.href = `http://go.payitfwd.dev/${p}`;
+            window.location.href = `http://go.payitfwd.dev/${p}`;
         } else if (p === "404") {
             document.getElementById('rpl').style.display = "none";
             hero.classList.add("loading");
