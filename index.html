@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        .codewrap {
+            display: flex;
+            width: -webkit-fill-available;
+        }
+        body {
+            background: #efefef;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            background-color: ghostwhite;
+            border: 1px solid silver;
+            padding: 10px 20px;
+            margin: 20px;
+            border-radius: 4px;
+            width: 80%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex;">
+        <img src="payitfwd_logo_3.png" style="
+        height: 20vh;
+        margin: auto;"/>
+    </div>
+
+    <div class="codewrap">
+    <pre><code id=hero></code></pre>
+    </div>
+    <script>
+        const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/ig
+      /**
+       * Pretty Print JSON Objects.
+       * Inspired by http://jsfiddle.net/unLSJ/
+       * Based on code from https://codepen.io/decodigo/pen/amzrF
+       *
+       * @return {string}    html string of the formatted JS object
+       * @example:  var obj = {"foo":"bar"};  obj.prettyPrint();
+       */
+        Object.prototype.prettyPrint = function () {
+            var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+            var replacer = function (match, pIndent, pKey, pVal, pEnd) {
+                var key = '<span class="json-key" style="color: brown">',
+                    val = '<span class="json-value" style="color: navy">',
+                    str = '<span class="json-string" style="color: olive">',
+                    link = l => `<span class="json-string" style="color: olive"><a href="${l}">"${l}"</a>`,
+                    em = l => `<span class="json-string" style="color: olive"><a href="mailto://${l}">"${l}"</a>`,
+                    tw = at => `<span class="json-string" style="color: olive"><a href="https://twitter.com/${at.replace("@","")}">"${at}"</a>`,
+                    r = pIndent || '';
+                if (pKey)
+                    r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+                if(pVal && (pKey || "").trim()==`"contact":`){
+                    r = r + em(pVal.replaceAll(`"`,'')) + '</span>';
+                } else
+                if(pVal && pVal.match(urlRegex)) {
+                    const url = pVal.match(urlRegex)[0];
+                    r = r + link(url) + '</span>';
+                } else
+                if(pVal && pVal.replaceAll(`"`,'').startsWith("@")) {
+                    r = r + tw(pVal.replaceAll(`"`,'')) + '</span>';
+                } else
+                 if (pVal) {
+                    r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+                 }
+                return  r + (pEnd || '') + '<br>';
+            };
+            return JSON.stringify(this, null, 3)
+                .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
+                .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(jsonLine, replacer)
+        }
+
+        const d = {
+            "what": "Strengthen OSS by redirecting donators to your dependencies!",
+            "why": "I'm a full time open-source matinainer and have fortunately been able to monetize my project (open-wa). I have free space in my sponsor box on my github repos and want would-be donators to forward their donations to my projects' dependencies and their respective maintainers instead.",
+            "when": "14 Jan 2022",
+            "how": "Replace github.com in your repo link with payitfwd.dev then add it to your .github/FUNDING.yml file as a custom funding link",
+            "example": `https://payitfwd.dev/open-wa/wa-automate-nodejs`,
+            "who": "@smashah",
+            "contact": "shah@idk.uno",
+            "ps": "If anyone from the github funding links team is reading this, please allow custom funding links to have the referral header",
+            "logo_font":"https://github.com/javierbyte/brutalita"
+        }
+        const r = d.prettyPrint()
+        document.getElementById('hero').innerHTML = r
+    </script>
+</body>
+
+</html>
