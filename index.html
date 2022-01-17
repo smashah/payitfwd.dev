@@ -19,6 +19,8 @@
     <meta property="twitter:title" content="Strengthen OSS | Pay It Forward">
     <meta property="twitter:description" content="Help __META_REPO_NAME__ by donating to a dependency!">
     <meta property="twitter:image" content="__META_CARD_URL__">
+    <meta name="twitter:site" content="@smashah" />
+    <meta name="twitter:creator" content="@smashah" />
 
     <link rel="apple-touch-icon" sizes="180x180"
         href="https://raw.githubusercontent.com/smashah/payitfwd.dev/main/resources/apple-touch-icon.png">
@@ -178,6 +180,11 @@
             hero.classList.add("loading");
             hero.innerHTML = `<span style="margin: auto;">Loading funding link from random dependency of ${p.split("/").slice(-2).join("/")} ...</span>`
             window.location.href = `http://go.payitfwd.dev/${p}`;
+        } else if (p === "random") {
+            document.getElementById('rpl').style.display = "none";
+            hero.classList.add("loading");
+            hero.innerHTML = `<span style="margin: auto;">Loading a random funding link from a random dependency of a random project...</span><br><a href="/" style="margin: auto;">Go home</a>`
+            window.location.href = `http://go.payitfwd.dev/random`;
         } else if (p === "404") {
             document.getElementById('rpl').style.display = "none";
             hero.classList.add("loading");
