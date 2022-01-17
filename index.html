@@ -174,17 +174,17 @@
             "logo_font": "https://github.com/javierbyte/brutalita"
         }
         const p = window.location.pathname.replace(/^\/+/, '')
-        console.log("🚀 ~ file: index.html ~ line 143 ~ p", p)
+        const pause = (new URLSearchParams(window. location. search)).has("pause")
         const hero = document.getElementById('hero')
         if (p && p.split('/').length == 2) {
             hero.classList.add("loading");
             hero.innerHTML = `<span style="margin: auto;">Loading funding link from random dependency of ${p.split("/").slice(-2).join("/")} ...</span>`
-            window.location.href = `http://go.payitfwd.dev/${p}`;
+            if(!pause) window.location.href = `http://go.payitfwd.dev/${p}`;
         } else if (p === "random") {
             document.getElementById('rpl').style.display = "none";
             hero.classList.add("loading");
             hero.innerHTML = `<span style="margin: auto;">Loading a random funding link from a random dependency of a random project...</span><br><a href="/" style="margin: auto;">Go home</a>`
-            window.location.href = `http://go.payitfwd.dev/random`;
+            if(!pause) window.location.href = `http://go.payitfwd.dev/random`;
         } else if (p === "404") {
             document.getElementById('rpl').style.display = "none";
             hero.classList.add("loading");
