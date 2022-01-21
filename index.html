@@ -137,7 +137,7 @@
                     str = '<span class="json-string" style="color: olive">',
                     link = l => `<span class="json-string" style="color: olive"><a href="${l}">"${l}"</a>`,
                     em = l => `<span class="json-string" style="color: olive"><a href="mailto://${l}">"${l}"</a>`,
-                    tw = at => `<span class="json-string" style="color: olive"><a href="https://twitter.com/${at.replace("@", "")}">"${at}"</a>`,
+                    tw = at => `<span class="json-string" style="color: olive"><a href="https://github.com/${at.replace("@", "")}">"${at}"</a>`,
                     r = pIndent || '';
                 if (pKey)
                     r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
