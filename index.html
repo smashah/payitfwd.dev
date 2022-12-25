@@ -121,6 +121,8 @@
     </div>
     <script>
         const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/ig
+        const reason = (new URLSearchParams(window.location.search)).get('reason')
+        const fofText = reason && reason === 'nodep' ? `No dependencies found. Please tell the maintainer of the library to enable dependency graphs on the repo.` : `Github project not found ...` 
         /**
          * Pretty Print JSON Objects.
          * Inspired by http://jsfiddle.net/unLSJ/
@@ -188,7 +190,7 @@
         } else if (p === "404") {
             document.getElementById('rpl').style.display = "none";
             hero.classList.add("loading");
-            hero.innerHTML = `<span style="margin: auto;">Github project not found ...</span><br><a href="/" style="margin: auto;">Go home</a>`
+            hero.innerHTML = `<span style="margin: auto;">${fofText}</span><br><a href="/" style="margin: auto;">Go home</a>`
         } else {
             document.getElementById('rpl').style.display = "none";
             const r = d.prettyPrint()
